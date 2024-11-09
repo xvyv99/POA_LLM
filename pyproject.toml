@@ -5,8 +5,10 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "jieba>=0.42.1",
     "langchain-ollama>=0.2.0",
     "langchain>=0.3.7",
     "matplotlib>=3.9.2",
     "tqdm>=4.67.0",
+    "wordcloud>=1.9.3",
 ]
