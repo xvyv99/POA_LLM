@@ -4,7 +4,7 @@ from tqdm import tqdm
 import json
 
 ITEM_COUNT = 4068608
-di = util.DataIter()
+di = util.DataIter(20)
 llm_i = llm.LLM()
 failures = 0
 

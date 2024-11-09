@@ -1,6 +1,6 @@
 import json, re, os
 from typing import Optional
-from datetime import datetime
+from datetime import datetime, date
 import pickle
 
 def catchJson(response: str) -> Optional[dict]:
@@ -57,15 +57,17 @@ class DataIter:
     cur_index_: int
     cur_sum_: int
     cur_file_: str
+    start_num_: int
 
     ITEM_COUNT = 4068608
 
-    def __init__(self):
+    def __init__(self, start_num=0):
         self.cur_sum_ = 0
         self.cur_file_ = None 
+        self.start_num_ = start_num
     
     def __iter__(self):
-        for name in DATASET_NAMES:
+        for name in DATASET_NAMES[self.start_num_:]:
             self.cur_index_ = 0
             data_path = os.path.join(DATASET_PATH, name)
             self.cur_file_ = name
@@ -81,12 +83,14 @@ class DataIter:
 
 class ResultIter:
     cur_index_: int
+    res_file: str
 
-    def __init__(self):
+    def __init__(self, file_name: str="res.log"):
         self.cur_index_ = 0
+        self.res_file = file_name
     
     def __iter__(self):
-        with open('res.log', 'r') as f:
+        with open(self.res_file, 'r') as f:
             for line in f:
                 cur_obj = json.loads(line)
                 self.cur_index_ += 1
@@ -94,3 +98,27 @@ class ResultIter:
 
     def __next__(self):
         pass
+
+class Counter:
+    count_: dict
+    def __init__(self):
+        self.count_ = {}
+
+    def add(self, obj):
+        if obj in self.count_.keys():
+            self.count_[obj] += 1
+        else:
+            self.count_[obj] = 1
+
+    @property
+    def count(self):
+        return self.count_
+    
+class timeCounter(Counter):
+    count_: dict[date, int]
+
+    def add(self, obj: datetime):
+        if obj.date() in self.count_.keys():
+            self.count_[obj.date()] += 1
+        else:
+            self.count_[obj.date()] = 1

@@ -43,11 +43,11 @@ template = """请分析以下文本中的观点表达，输出标准JSON格式�
 
 输出格式示例：
 {{
-    "msg_type": "评论",
-    "type": "情感",
-    "polarity": "负面",
-    "intensity": "中",
-    "topic": "这部电影"
+    "msg_type": "消息类型",
+    "type": "态度类型",
+    "polarity": "态度极性",
+    "intensity": "态度强度",
+    "topic": "话题"
 }}
 
 请确保：
@@ -73,7 +73,7 @@ topic: 相关话题
 {{
     "msg_type": "评论",
     "type": "情感",
-    "polarity": "负面", 
+    "polarity": "", 
     "intensity": "中",
     "topic": "新电影"
 }}
@@ -86,15 +86,15 @@ class LLM:
     chain_: Chain
 
     def __init__(self):
-        prompt = ChatPromptTemplate.from_template(template_simple)
+        prompt = ChatPromptTemplate.from_template(template)
         model = OllamaLLM(
             model="qwen2.5:0.5b",
-            num_thread=8,
-            temperature=0.3,
-            top_p=0.8,
-            context_length=1024,
-            max_tokens=128,
-            repeat_penalty=1.05
+#            num_thread=8,
+#            temperature=0.3,
+#            top_p=0.8,
+#            context_length=1024,
+#            max_tokens=128,
+#            repeat_penalty=1.05
          )
         self.chain_ = prompt | model
 

@@ -1,22 +1,21 @@
 import util
 
-res = util.ResultIter()
-pd = {}
-id = {}
+res = util.ResultIter('res.log.bak')
+pd = util.Counter()
+id = util.Counter()
+td = util.timeCounter()
 
 for l in res:
-    if 'polarity' not in l:
-        continue
-    if l['polarity'] in pd:
-        pd[l['polarity']] += 1
-    else:
-        pd[l['polarity']] = 1
+    if 'polarity' in l:
+        pd.add(l['polarity'])
 
-    if 'intensity' not in l:
-        continue
-    if l['intensity'] in pd:
-        id[l['intensity']] += 1
-    else:
-        id[l['intensity']] = 1
-print(pd)
-print(id)
+    if 'intensity' in l:
+        id.add(l['intensity'])
+
+    if 'time' in l:
+        td.add(util.tranformDate(l['time']))
+
+print(pd.count)
+print(id.count)
+print(sorted(td.count.keys()))
+print(res.cur_index_)
