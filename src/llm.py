@@ -59,12 +59,43 @@ template = """请分析以下文本中的观点表达，输出标准JSON格式�
 
 分析结果："""
 
+template_simple = """分析文本的观点表达，输出标准JSON格式：{question}
+
+规则：
+msg_type: 原创/转发/评论/广告/资讯
+type: 情感/评价/意图/建议/推测/观点
+polarity: 正面/负面/中性
+intensity: 高/中/低
+topic: 相关话题
+
+输出格式：
+```json
+{{
+    "msg_type": "评论",
+    "type": "情感",
+    "polarity": "负面", 
+    "intensity": "中",
+    "topic": "新电影"
+}}
+```
+
+分析结果："""
+
+
 class LLM:
     chain_: Chain
 
     def __init__(self):
-        prompt = ChatPromptTemplate.from_template(template)
-        model = OllamaLLM(model="qwen2.5:0.5b")
+        prompt = ChatPromptTemplate.from_template(template_simple)
+        model = OllamaLLM(
+            model="qwen2.5:0.5b",
+            num_thread=8,
+            temperature=0.3,
+            top_p=0.8,
+            context_length=1024,
+            max_tokens=128,
+            repeat_penalty=1.05
+         )
         self.chain_ = prompt | model
 
     def getResponse(self, question: str) -> str:

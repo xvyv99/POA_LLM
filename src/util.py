@@ -1,6 +1,7 @@
 import json, re, os
 from typing import Optional
 from datetime import datetime
+import pickle
 
 def catchJson(response: str) -> Optional[dict]:
     # stage 1 检查是否有json代码块
@@ -56,6 +57,8 @@ class DataIter:
     cur_index_: int
     cur_sum_: int
     cur_file_: str
+
+    ITEM_COUNT = 4068608
 
     def __init__(self):
         self.cur_sum_ = 0
