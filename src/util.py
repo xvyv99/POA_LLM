@@ -75,3 +75,19 @@ class DataIter:
 
     def __next__(self):
         pass
+
+class ResultIter:
+    cur_index_: int
+
+    def __init__(self):
+        self.cur_index_ = 0
+    
+    def __iter__(self):
+        with open('res.log', 'r') as f:
+            for line in f:
+                cur_obj = json.loads(line)
+                self.cur_index_ += 1
+                yield cur_obj
+
+    def __next__(self):
+        pass
