@@ -122,3 +122,23 @@ class timeCounter(Counter):
             self.count_[obj.date()] += 1
         else:
             self.count_[obj.date()] = 1
+
+class SubCounter(Counter):
+    count_: dict[date, list[int, int, int]]
+
+    def add(self, obj: dict):
+        dic = {
+            "积极": 0,
+            "中立": 1,
+            "消极": 2
+        }
+
+        t = tranformDate(obj['time'])
+        p = dic[obj['polarity']]
+        i = obj['intensity'] if p != 1 else 1
+
+        if t.date() in self.count_.keys():
+            self.count_[t.date()][p] += i
+        else:
+            self.count_[t.date()] = [0,0,0]
+            self.count_[t.date()][p] += i

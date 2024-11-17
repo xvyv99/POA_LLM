@@ -101,8 +101,3 @@ class LLM:
     def getResponse(self, question: str) -> str:
         res = self.chain_.invoke({"question": f"{question}"})
         return res
-   
-if __name__ == "__main__":
-   llm = LLM()
-   r = llm.getResponse("#抗击新型肺炎我们在行动##全民口罩行动# 大家出门一定要佩戴好口罩，为避免病毒的二次传播，请不要乱扔口罩哦！")
-   print(r)

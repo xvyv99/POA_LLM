@@ -1,6 +1,6 @@
 import util
 
-res = util.ResultIter('res.log.bak')
+res = util.ResultIter('modify.log')
 pd = util.Counter()
 id = util.Counter()
 td = util.timeCounter()
